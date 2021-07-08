@@ -7,9 +7,9 @@ Pure vanilla-js ultra-lightweight dom inspector similiar to built-in tool in chr
 
 yarn add inspector-dom2
 
-`const Inspector = require('inspector-dom')`
+`const Inspector = require('inspector-dom2')`
 
-`import Inspector from 'inspector-dom'`
+`import Inspector from 'inspector-dom2'`
 
 ## Usage
 
