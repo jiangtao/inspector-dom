@@ -1,11 +1,11 @@
-# Inspector Dom
+# Inspector Dom2
 
 Pure vanilla-js ultra-lightweight dom inspector similiar to built-in tool in chrome browser with a custom callback onClick.
-![](inspector.gif)
+![](inspector.gif), based on [Inspector Dom](https://github.com/mbondyra/inspector-dom) changed.
 
 ## Install
 
-yarn add inspector-dom
+yarn add inspector-dom2
 
 `const Inspector = require('inspector-dom')`
 
@@ -23,8 +23,10 @@ Props:
 const inspector = Inspector({
     root: 'body',                       // root element
     excluded: [],                       // excluded children, string or node Element
-    outlineStyles: '2px solid orange',  // styles
-    onClick: el => console.log('Element was clicked:', constructCssPath(el) //onClick callback
+    included: [],                     // included always use better, and the css positive selector is supported friendly
+    outlineStyle: '2px solid orange', // style
+    highlightClass: 'inspector', // help developer advance the inspector highlight custom css
+    onClick: el => console.log('Element was clicked:', el) //onClick callback
 });
 ```
 

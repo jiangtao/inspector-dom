@@ -6,7 +6,7 @@ module.exports = {
     index: './src/index.js'
   },
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.join(__dirname, 'docs'),
     chunkFilename: '[name].js'
   }
 }

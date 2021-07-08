@@ -1,20 +1,23 @@
 {
-  "name": "inspector-dom",
-  "version": "0.1.1",
+  "name": "inspector-dom2",
+  "version": "0.1.2",
   "description": "Dom elements picker",
   "main": "src/index.js",
   "repository": {
     "type" : "git",
-    "url" : "https://github.com/mbondyra/inspector-dom"
+    "url" : "https://github.com/jiangtao/inspector-dom"
   },
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack --mode development",
-    "start": "webpack --watch --mode development",
+    "build": "webpack --output-library-target=umd --output-library=Inspector",
+    "dev": "webpack --mode development --output-library-target=umd --output-library=Inspector",
+    "start": "webpack --watch --mode development --output-library-target=umd --output-library=Inspector",
     "format": "pretty-quick",
     "lint": "eslint ./"
   },
   "author": "Marta Bondyra",
+  "contributors": [
+    "jiangtao"
+  ],
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^10.0.2",

@@ -29,25 +29,30 @@ var constructCssPath = el => {
 var defaultProps = {
   root: 'body',
   outlineStyle: '5px solid rgba(204, 146, 62, 0.3)',
-  onClick: el => console.log('Element was clicked:', constructCssPath(el))
+  onClick: el => console.log('Element was clicked:', constructCssPath(el)),
 }
 
 var Inspector = ((props = {}) => {
-  const {root, excluded, outlineStyle} = {
+  const {root, excluded, included, outlineStyle, highlightClass} = {
     ...defaultProps,
     ...props
   }
   let onClick = props.onClick || defaultProps.onClick
 
-  let selected, excludedElements
+  let selected, excludedElements, includedElements
 
   const removeHighlight = el => {
-    if (el) el.style.outline = 'none'
+    if (el) {
+      el.style.outline = 'none'
+      el.classList.remove(highlightClass)
+    }
   }
 
   const highlight = el => {
+    el.classList.add(highlightClass)
     el.style.outline = outlineStyle
     el.style.outlineOffset = `-${el.style.outlineWidth}`
+
   }
 
   const shouldBeExcluded = ev => {
@@ -55,9 +60,15 @@ var Inspector = ((props = {}) => {
       return true
     }
   }
+  const shouldIncluded = ev => {
+    return includedElements && includedElements.length && includedElements.some(parent => (parent === ev.target))
+  }
 
   const handleMouseOver = ev => {
     if (shouldBeExcluded(ev)){
+      return
+    }
+    if (!shouldIncluded(ev)) {
       return
     }
     selected = ev.target
@@ -68,11 +79,17 @@ var Inspector = ((props = {}) => {
     if (shouldBeExcluded(ev)){
       return
     }
+    if (!shouldIncluded(ev)) {
+      return
+    }
     removeHighlight(ev.target)
   }
 
   const handleClick = ev => {
     if (shouldBeExcluded(ev)){
+      return
+    }
+    if (!shouldIncluded(ev)) {
       return
     }
     ev.preventDefault()
@@ -96,6 +113,21 @@ var Inspector = ((props = {}) => {
     })
     return Array.from(excludedNested).flat()
   }
+  const prepareIncluded = (rootEl) => {
+    if (!included.length){
+      return []
+    }
+    const includedNested = included.flatMap(element => {
+      if (typeof element === 'string' || element instanceof String){
+        return Array.from(rootEl.querySelectorAll(element))
+      } else if (element instanceof Element){
+        return [element]
+      } else if (element.length>0 && element[0] instanceof Element){
+        return Array.from(element)
+      }
+    })
+    return Array.from(includedNested).flat()
+  }
 
   const enable = onClickCallback => {
     const rootEl = document.querySelector(root)
@@ -104,6 +136,9 @@ var Inspector = ((props = {}) => {
 
     if (excluded){
       excludedElements = prepareExcluded(rootEl)
+    }
+    if (included){
+      includedElements = prepareIncluded(rootEl)
     }
     rootEl.addEventListener('mouseover', handleMouseOver, true)
     rootEl.addEventListener('mouseout', handleMouseOut, true)
