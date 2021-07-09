@@ -1,11 +1,11 @@
 {
   "name": "inspector-dom2",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Dom elements picker",
   "main": "src/index.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/jiangtao/inspector-dom"
+    "type": "git",
+    "url": "https://github.com/jiangtao/inspector-dom"
   },
   "scripts": {
     "build": "webpack --output-library-target=umd --output-library=Inspector",
