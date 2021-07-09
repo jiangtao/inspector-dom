@@ -30,6 +30,9 @@ const inspector = Inspector({
 });
 ```
 
+## Change Log
+- Fix: When use the inspector onClick,  the `el` element ohter click handler will not work. Set the `onClick` is null, the element click work.
+
 ## API
 
 `inspector.enable()                     // turn the inspector on`

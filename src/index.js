@@ -29,7 +29,7 @@ var constructCssPath = el => {
 var defaultProps = {
   root: 'body',
   outlineStyle: '5px solid rgba(204, 146, 62, 0.3)',
-  onClick: el => console.log('Element was clicked:', constructCssPath(el)),
+  onClick: el => console.log('el', constructCssPath(el))
 }
 
 var Inspector = ((props = {}) => {
@@ -37,7 +37,8 @@ var Inspector = ((props = {}) => {
     ...defaultProps,
     ...props
   }
-  let onClick = props.onClick || defaultProps.onClick
+  let onClick = props.onClick
+  let isValidHandler = fn => typeof fn === 'function'
 
   let selected, excludedElements, includedElements
 
@@ -142,7 +143,7 @@ var Inspector = ((props = {}) => {
     }
     rootEl.addEventListener('mouseover', handleMouseOver, true)
     rootEl.addEventListener('mouseout', handleMouseOut, true)
-    rootEl.addEventListener('click', handleClick, true)
+    if(isValidHandler(onClick)) rootEl.addEventListener('click', handleClick, true)
     if (onClickCallback){
       onClick = onClickCallback
     }
@@ -153,9 +154,8 @@ var Inspector = ((props = {}) => {
       return
     rootEl.removeEventListener('mouseover', handleMouseOver, true)
     rootEl.removeEventListener('mouseout', handleMouseOut, true)
-    rootEl.removeEventListener('click', handleClick, true)
+    if (isValidHandler(onClick)) rootEl.removeEventListener('click', handleClick, true)
     removeHighlight(selected)
-
   }
   return {
     enable,
